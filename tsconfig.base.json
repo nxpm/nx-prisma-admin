@@ -14,7 +14,24 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@nx-prisma-admin/api-app-module": ["apps/api/src/app/app.module.ts"],
+      "@nx-prisma-admin/api/auth/data-access": ["libs/api/auth/data-access/src/index.ts"],
+      "@nx-prisma-admin/api/auth/feature": ["libs/api/auth/feature/src/index.ts"],
+      "@nx-prisma-admin/api/core/data-access": ["libs/api/core/data-access/src/index.ts"],
+      "@nx-prisma-admin/api/core/feature": ["libs/api/core/feature/src/index.ts"],
+      "@nx-prisma-admin/web/about/feature": ["libs/web/about/feature/src/index.ts"],
+      "@nx-prisma-admin/web/assets": ["libs/web/assets/src/index.ts"],
+      "@nx-prisma-admin/web/auth/data-access": ["libs/web/auth/data-access/src/index.ts"],
+      "@nx-prisma-admin/web/auth/feature": ["libs/web/auth/feature/src/index.ts"],
+      "@nx-prisma-admin/web/core/data-access": ["libs/web/core/data-access/src/index.ts"],
+      "@nx-prisma-admin/web/core/feature": ["libs/web/core/feature/src/index.ts"],
+      "@nx-prisma-admin/web/dashboard/feature": ["libs/web/dashboard/feature/src/index.ts"],
+      "@nx-prisma-admin/web/layout": ["libs/web/layout/src/index.ts"],
+      "@nx-prisma-admin/web/shell/feature": ["libs/web/shell/feature/src/index.ts"],
+      "@nx-prisma-admin/web/style": ["libs/web/style/src/index.ts"],
+      "@nx-prisma-admin/web/ui-form": ["libs/web/ui-form/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
