@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
-import { WebCoreDataAccessService } from '@nx-prisma-admin/web/core/data-access'
+import { ApolloAngularSDK } from '@nx-prisma-admin/web/util/sdk'
+import { map } from 'rxjs/operators'
 
 @Component({
   template: `
@@ -15,7 +16,7 @@ import { WebCoreDataAccessService } from '@nx-prisma-admin/web/core/data-access'
   `,
 })
 export class WebDashboardFeatureComponent {
-  public uptime$ = this.data.uptimeWatch()
-  public me$ = this.data.me()
-  constructor(private readonly data: WebCoreDataAccessService) {}
+  public uptime$ = this.sdk.uptimeWatch().valueChanges.pipe(map((res) => res?.data?.uptime))
+  public me$ = this.sdk.me().pipe(map((res) => res?.data?.me))
+  constructor(private readonly sdk: ApolloAngularSDK) {}
 }

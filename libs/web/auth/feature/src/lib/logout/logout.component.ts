@@ -1,21 +1,22 @@
-import { Component } from '@angular/core'
-import { Router } from '@angular/router'
-import { Store } from '@ngrx/store'
-import { getAuthUser, logout } from '@nx-prisma-admin/web/auth/data-access'
-import { delay, tap } from 'rxjs/operators'
+import { Component, OnInit } from '@angular/core'
+import { WebAuthStore } from '@nx-prisma-admin/web/auth/data-access'
 
 @Component({
-  template: ` <div class="d-flex flex-column justify-content-center h-100 align-items-center">Logging out...</div> `,
+  template: `
+    <ng-container *ngIf="vm$ | async as vm">
+      <auth-page pageTitle="Logging out">
+        <div class="error" *ngIf="vm.errors">
+          {{ vm.errors }}
+        </div>
+      </auth-page>
+    </ng-container>
+  `,
 })
-export class LogoutComponent {
-  getAuthUser = this.store.select(getAuthUser)
+export class LogoutComponent implements OnInit {
+  readonly vm$ = this.authStore.vm$
+  constructor(private readonly authStore: WebAuthStore) {}
 
-  constructor(private readonly store: Store, private readonly router: Router) {
-    this.getAuthUser
-      .pipe(
-        delay(300),
-        tap(() => this.store.dispatch(logout())),
-      )
-      .subscribe(() => this.router.navigate(['/']))
+  ngOnInit(): void {
+    this.authStore.logoutEffect()
   }
 }

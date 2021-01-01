@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
-import { WebCoreDataAccessService } from '@nx-prisma-admin/web/core/data-access'
 import { environment } from '@nx-prisma-admin/web/core/feature'
+import { ApolloAngularSDK } from '@nx-prisma-admin/web/util/sdk'
 
 @Component({
   template: `
@@ -15,6 +15,6 @@ import { environment } from '@nx-prisma-admin/web/core/feature'
 })
 export class WebAboutFeatureComponent {
   public environment = environment
-  public uptime$ = this.data.uptimeWatch()
-  constructor(private readonly data: WebCoreDataAccessService) {}
+  public uptime$ = this.sdk.uptimeWatch().valueChanges
+  constructor(private readonly sdk: ApolloAngularSDK) {}
 }

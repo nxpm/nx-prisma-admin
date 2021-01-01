@@ -18,5 +18,11 @@ module.exports = {
     '<rootDir>/libs/web/layout',
     '<rootDir>/libs/web/style',
     '<rootDir>/libs/web/ui-form',
+    '<rootDir>/libs/web/ui-icon',
+    '<rootDir>/libs/api/meta/data-access',
+    '<rootDir>/libs/api/meta/feature',
+    '<rootDir>/libs/web/auth/ui',
+    '<rootDir>/libs/native/util-sdk',
+    '<rootDir>/libs/web/util-sdk',
   ],
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { ApolloAngularSDK, LoginInput, RegisterInput } from '@nx-prisma-admin/web/core/data-access'
+import { ApolloAngularSDK, LoginInput, RegisterInput } from '@nx-prisma-admin/web/util/sdk'
 
 @Injectable()
 export class WebAuthDataAccessService {

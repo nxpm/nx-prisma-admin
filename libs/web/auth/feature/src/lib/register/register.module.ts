@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { Routes, RouterModule } from '@angular/router'
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
 import { WebAuthDataAccessModule } from '@nx-prisma-admin/web/auth/data-access'
-import { AuthPageModule } from '../components/auth-page/auth-page.module'
+import { AuthPageModule } from '@nx-prisma-admin/web/auth/ui'
 import { RegisterComponent } from './register.component'
 
 const routes: Routes = [{ path: '', component: RegisterComponent }]

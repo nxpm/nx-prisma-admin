@@ -1,48 +1,33 @@
 import { Component } from '@angular/core'
-import { FormGroup } from '@angular/forms'
-import { Router } from '@angular/router'
-import { Store } from '@ngrx/store'
-import { getAuthError, getAuthUser, login } from '@nx-prisma-admin/web/auth/data-access'
-import { WebUiFormField } from '@nx-prisma-admin/web/ui-form'
-import { filter, take } from 'rxjs/operators'
+import { WebAuthStore } from '@nx-prisma-admin/web/auth/data-access'
+import { LoginInput } from '@nx-prisma-admin/web/util/sdk'
+import { UiFormField } from '@nx-prisma-admin/web/ui/form'
 
 @Component({
   template: `
-    <auth-page
-      #f
-      [form]="form"
-      [fields]="fields"
-      pageTitle="Login"
-      buttonTitle="Log in"
-      [model]="model"
-      (submit)="submit($event)"
-    >
-      <div class="error" *ngIf="getAuthError | async as error">
-        {{ error }}
-      </div>
-      <a routerLink="/register" class="btn btn-outline-primary">Register</a>
-    </auth-page>
+    <ng-container *ngIf="vm$ | async as vm">
+      <auth-page
+        (submitForm)="submit($event)"
+        [errors]="vm.errors"
+        [fields]="fields"
+        buttonTitle="Log in"
+        linkPath="/register"
+        linkTitle="Register"
+        pageTitle="Login"
+      >
+      </auth-page>
+    </ng-container>
   `,
 })
 export class LoginComponent {
-  getAuthError = this.store.select(getAuthError)
-  getAuthUser = this.store.select(getAuthUser)
-  form = new FormGroup({})
-  model = {}
-  fields = [
-    WebUiFormField.email('email', { label: 'Email', required: true }, { focus: true }),
-    WebUiFormField.password('password', { label: 'Password', required: true }),
+  readonly vm$ = this.authStore.vm$
+  readonly fields = [
+    UiFormField.email('email', { label: 'Email', required: true }),
+    UiFormField.password('password', { label: 'Password', required: true }),
   ]
-  constructor(private readonly store: Store, private readonly router: Router) {
-    this.getAuthUser
-      .pipe(
-        filter((user) => !!user),
-        take(1),
-      )
-      .subscribe(() => this.router.navigate(['/']))
-  }
+  constructor(private readonly authStore: WebAuthStore) {}
 
-  public submit(input) {
-    this.store.dispatch(login({ input }))
+  submit(input: LoginInput) {
+    this.authStore.loginEffect(input)
   }
 }

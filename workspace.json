@@ -159,6 +159,48 @@
         }
       }
     },
+    "api-meta-data-access": {
+      "root": "libs/api/meta/data-access",
+      "sourceRoot": "libs/api/meta/data-access/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/api/meta/data-access/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/api/meta/data-access"],
+          "options": {
+            "jestConfig": "libs/api/meta/data-access/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-meta-feature": {
+      "root": "libs/api/meta/feature",
+      "sourceRoot": "libs/api/meta/feature/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/api/meta/feature/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/api/meta/feature"],
+          "options": {
+            "jestConfig": "libs/api/meta/feature/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "web": {
       "projectType": "application",
       "root": "apps/web",
@@ -334,24 +376,24 @@
         }
       }
     },
-    "web-core-data-access": {
+    "web-auth-ui": {
       "projectType": "library",
-      "root": "libs/web/core/data-access",
-      "sourceRoot": "libs/web/core/data-access/src",
-      "prefix": "core",
+      "root": "libs/web/auth/ui",
+      "sourceRoot": "libs/web/auth/ui/src",
+      "prefix": "auth",
       "targets": {
         "lint": {
           "executor": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["libs/web/core/data-access/tsconfig.lib.json", "libs/web/core/data-access/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/web/core/data-access/**/*"]
+            "tsConfig": ["libs/web/auth/ui/tsconfig.lib.json", "libs/web/auth/ui/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/web/auth/ui/**/*"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/web/core/data-access"],
+          "outputs": ["coverage/libs/web/auth/ui"],
           "options": {
-            "jestConfig": "libs/web/core/data-access/jest.config.js",
+            "jestConfig": "libs/web/auth/ui/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -488,22 +530,68 @@
     },
     "web-ui-form": {
       "projectType": "library",
-      "root": "libs/web/ui-form",
-      "sourceRoot": "libs/web/ui-form/src",
+      "root": "libs/web/ui/form",
+      "sourceRoot": "libs/web/ui/form/src",
       "prefix": "form",
       "targets": {
         "lint": {
           "executor": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["libs/web/ui-form/tsconfig.lib.json", "libs/web/ui-form/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/web/ui-form/**/*"]
+            "tsConfig": ["libs/web/ui/form/tsconfig.lib.json", "libs/web/ui/form/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/web/ui/form/**/*"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/web/ui-form"],
+          "outputs": ["coverage/libs/web/ui/form"],
           "options": {
-            "jestConfig": "libs/web/ui-form/jest.config.js",
+            "jestConfig": "libs/web/ui/form/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "web-ui-icon": {
+      "projectType": "library",
+      "root": "libs/web/ui/icon",
+      "sourceRoot": "libs/web/ui/icon/src",
+      "prefix": "icon",
+      "targets": {
+        "lint": {
+          "executor": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["libs/web/ui/icon/tsconfig.lib.json", "libs/web/ui/icon/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/web/ui/icon/**/*"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/ui/icon"],
+          "options": {
+            "jestConfig": "libs/web/ui/icon/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "web-util-sdk": {
+      "projectType": "library",
+      "root": "libs/web/util/sdk",
+      "sourceRoot": "libs/web/util/sdk/src",
+      "prefix": "sdk",
+      "targets": {
+        "lint": {
+          "executor": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["libs/web/util/sdk/tsconfig.lib.json", "libs/web/util/sdk/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/web/util/sdk/**/*"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/util/sdk"],
+          "options": {
+            "jestConfig": "libs/web/util/sdk/jest.config.js",
             "passWithNoTests": true
           }
         }

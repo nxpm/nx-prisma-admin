@@ -1,29 +1,37 @@
 import { Component } from '@angular/core'
-import { FormGroup } from '@angular/forms'
-import { Store } from '@ngrx/store'
-import { register } from '@nx-prisma-admin/web/auth/data-access'
-import { WebUiFormField } from '@nx-prisma-admin/web/ui-form'
+import { WebAuthStore } from '@nx-prisma-admin/web/auth/data-access'
+import { RegisterInput } from '@nx-prisma-admin/web/util/sdk'
+import { UiFormField } from '@nx-prisma-admin/web/ui/form'
 
 @Component({
   template: `
-    <auth-page #f [form]="form" [fields]="fields" pageTitle="Register" buttonTitle="Register" (submit)="submit($event)">
-      <a routerLink="/login" class="btn btn-outline-primary">Log in</a>
-    </auth-page>
+    <ng-container *ngIf="vm$ | async as vm">
+      <auth-page
+        (submitForm)="submit($event)"
+        [errors]="vm.errors"
+        [fields]="fields"
+        buttonTitle="Register"
+        linkTitle="Log in"
+        linkPath="/login"
+        pageTitle="Register"
+      >
+      </auth-page>
+    </ng-container>
   `,
 })
 export class RegisterComponent {
-  form = new FormGroup({})
-  fields = [
-    WebUiFormField.email('email', { label: 'Email', required: true }, { focus: true }),
-    WebUiFormField.password('password', { label: 'Password', required: true }),
-    WebUiFormField.input('username', { label: 'Username', required: false }),
-    WebUiFormField.input('firstName', { label: 'First name', required: false }),
-    WebUiFormField.input('lastName', { label: 'Last name', required: false }),
+  readonly vm$ = this.authStore.vm$
+  readonly fields = [
+    UiFormField.email('email', { label: 'Email', required: true }),
+    UiFormField.password('password', { label: 'Password', required: true }),
+    UiFormField.input('username', { label: 'Username', required: false }),
+    UiFormField.input('firstName', { label: 'First name', required: false }),
+    UiFormField.input('lastName', { label: 'Last name', required: false }),
   ]
 
-  constructor(private readonly store: Store) {}
+  constructor(private readonly authStore: WebAuthStore) {}
 
-  public submit(input) {
-    this.store.dispatch(register({ input }))
+  public submit(input: RegisterInput) {
+    this.authStore.registerEffect(input)
   }
 }

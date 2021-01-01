@@ -1,14 +1,13 @@
-import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { NgModule } from '@angular/core'
 import { RouterModule } from '@angular/router'
-import { WebCoreDataAccessModule } from '@nx-prisma-admin/web/core/data-access'
 import { WebAboutFeatureComponent } from './web-about-feature.component'
 
 @NgModule({
   declarations: [WebAboutFeatureComponent],
   imports: [
     CommonModule,
-    WebCoreDataAccessModule,
+
     RouterModule.forChild([{ path: '', pathMatch: 'full', component: WebAboutFeatureComponent }]),
   ],
 })
