@@ -23,19 +23,28 @@ input LoginInput {
   password: String!
 }
 
-type MetaField {
+type MetaEnum {
   id: String
-  required: Boolean
-  type: MetaFieldType
+  values: [String!]
 }
 
-type MetaFieldType {
+type MetaField {
+  enum: Boolean
   id: String
+  list: Boolean
+  relation: Boolean
+  required: Boolean
+  type: String
 }
 
 type MetaModel {
   fields: [MetaField!]
   id: String
+}
+
+type MetaSchema {
+  enums: [MetaEnum!]
+  models: [MetaModel!]
 }
 
 type Mutation {
@@ -47,7 +56,7 @@ type Mutation {
 
 type Query {
   me: User
-  metaModels: [MetaModel!]
+  metaSchema: MetaSchema
   uptime: Float
 }
 

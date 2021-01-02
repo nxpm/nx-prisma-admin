@@ -24,5 +24,8 @@ module.exports = {
     '<rootDir>/libs/web/auth/ui',
     '<rootDir>/libs/native/util-sdk',
     '<rootDir>/libs/web/util-sdk',
+    '<rootDir>/libs/web/meta/feature',
+    '<rootDir>/libs/web/meta/data-access',
+    '<rootDir>/libs/web/meta/ui',
   ],
 }

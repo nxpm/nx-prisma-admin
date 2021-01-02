@@ -31,22 +31,32 @@ export type LoginInput = {
   password: Scalars['String']
 }
 
-export type MetaField = {
-  __typename?: 'MetaField'
+export type MetaEnum = {
+  __typename?: 'MetaEnum'
   id?: Maybe<Scalars['String']>
-  required?: Maybe<Scalars['Boolean']>
-  type?: Maybe<MetaFieldType>
+  values?: Maybe<Array<Scalars['String']>>
 }
 
-export type MetaFieldType = {
-  __typename?: 'MetaFieldType'
+export type MetaField = {
+  __typename?: 'MetaField'
+  enum?: Maybe<Scalars['Boolean']>
   id?: Maybe<Scalars['String']>
+  list?: Maybe<Scalars['Boolean']>
+  relation?: Maybe<Scalars['Boolean']>
+  required?: Maybe<Scalars['Boolean']>
+  type?: Maybe<Scalars['String']>
 }
 
 export type MetaModel = {
   __typename?: 'MetaModel'
   fields?: Maybe<Array<MetaField>>
   id?: Maybe<Scalars['String']>
+}
+
+export type MetaSchema = {
+  __typename?: 'MetaSchema'
+  enums?: Maybe<Array<MetaEnum>>
+  models?: Maybe<Array<MetaModel>>
 }
 
 export type Mutation = {
@@ -74,7 +84,7 @@ export type MutationRegisterArgs = {
 export type Query = {
   __typename?: 'Query'
   me?: Maybe<User>
-  metaModels?: Maybe<Array<MetaModel>>
+  metaSchema?: Maybe<MetaSchema>
   uptime?: Maybe<Scalars['Float']>
 }
 
@@ -185,6 +195,28 @@ export type IntercomSubSubscription = { __typename?: 'Subscription' } & {
   intercomSub?: Maybe<{ __typename?: 'IntercomMessage' } & IntercomDetailsFragment>
 }
 
+export type MetaEnumDetailsFragment = { __typename?: 'MetaEnum' } & Pick<MetaEnum, 'id' | 'values'>
+
+export type MetaModelDetailsFragment = { __typename?: 'MetaModel' } & Pick<MetaModel, 'id'> & {
+    fields?: Maybe<Array<{ __typename?: 'MetaField' } & MetaFieldDetailsFragment>>
+  }
+
+export type MetaFieldDetailsFragment = { __typename?: 'MetaField' } & Pick<
+  MetaField,
+  'id' | 'type' | 'required' | 'enum' | 'relation' | 'list'
+>
+
+export type MetaSchemaQueryVariables = Exact<{ [key: string]: never }>
+
+export type MetaSchemaQuery = { __typename?: 'Query' } & {
+  schema?: Maybe<
+    { __typename?: 'MetaSchema' } & {
+      models?: Maybe<Array<{ __typename?: 'MetaModel' } & MetaModelDetailsFragment>>
+      enums?: Maybe<Array<{ __typename?: 'MetaEnum' } & MetaEnumDetailsFragment>>
+    }
+  >
+}
+
 export const UserDetailsFragmentDoc = gql`
   fragment UserDetails on User {
     id
@@ -210,6 +242,31 @@ export const IntercomDetailsFragmentDoc = gql`
     scope
     payload
   }
+`
+export const MetaEnumDetailsFragmentDoc = gql`
+  fragment MetaEnumDetails on MetaEnum {
+    id
+    values
+  }
+`
+export const MetaFieldDetailsFragmentDoc = gql`
+  fragment MetaFieldDetails on MetaField {
+    id
+    type
+    required
+    enum
+    relation
+    list
+  }
+`
+export const MetaModelDetailsFragmentDoc = gql`
+  fragment MetaModelDetails on MetaModel {
+    id
+    fields {
+      ...MetaFieldDetails
+    }
+  }
+  ${MetaFieldDetailsFragmentDoc}
 `
 export const MeDocument = gql`
   query me {
@@ -338,6 +395,31 @@ export class IntercomSubGQL extends Apollo.Subscription<IntercomSubSubscription,
     super(apollo)
   }
 }
+export const MetaSchemaDocument = gql`
+  query MetaSchema {
+    schema: metaSchema {
+      models {
+        ...MetaModelDetails
+      }
+      enums {
+        ...MetaEnumDetails
+      }
+    }
+  }
+  ${MetaModelDetailsFragmentDoc}
+  ${MetaEnumDetailsFragmentDoc}
+`
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MetaSchemaGQL extends Apollo.Query<MetaSchemaQuery, MetaSchemaQueryVariables> {
+  document = MetaSchemaDocument
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo)
+  }
+}
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
@@ -359,6 +441,7 @@ export class ApolloAngularSDK {
     private uptimeGql: UptimeGQL,
     private intercomPubGql: IntercomPubGQL,
     private intercomSubGql: IntercomSubGQL,
+    private metaSchemaGql: MetaSchemaGQL,
   ) {}
 
   me(variables?: MeQueryVariables, options?: QueryOptionsAlone<MeQueryVariables>) {
@@ -404,5 +487,13 @@ export class ApolloAngularSDK {
     options?: SubscriptionOptionsAlone<IntercomSubSubscriptionVariables>,
   ) {
     return this.intercomSubGql.subscribe(variables, options)
+  }
+
+  metaSchema(variables?: MetaSchemaQueryVariables, options?: QueryOptionsAlone<MetaSchemaQueryVariables>) {
+    return this.metaSchemaGql.fetch(variables, options)
+  }
+
+  metaSchemaWatch(variables?: MetaSchemaQueryVariables, options?: WatchQueryOptionsAlone<MetaSchemaQueryVariables>) {
+    return this.metaSchemaGql.watch(variables, options)
   }
 }

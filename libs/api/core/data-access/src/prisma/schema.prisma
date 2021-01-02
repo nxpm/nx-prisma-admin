@@ -9,13 +9,13 @@ generator client {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
   role      Role
-  developer Boolean  @default(false)
-  email     String   @unique
-  username  String   @unique
+  developer Boolean   @default(false)
+  email     String    @unique
+  username  String    @unique
   password  String?
   firstName String?
   lastName  String?
@@ -23,9 +23,31 @@ model User {
   location  String?
   phone     String?
   bio       String?
+  products  Product[]
 }
 
 enum Role {
   Admin
   User
+}
+
+model Product {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  name        String
+  description String
+  price       Int
+  owner       User?     @relation(fields: [ownerId], references: [id])
+  ownerId     String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  name      String
+  products  Product[]
 }

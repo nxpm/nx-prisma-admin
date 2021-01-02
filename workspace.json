@@ -498,6 +498,75 @@
         }
       }
     },
+    "web-meta-data-access": {
+      "projectType": "library",
+      "root": "libs/web/meta/data-access",
+      "sourceRoot": "libs/web/meta/data-access/src",
+      "prefix": "meta",
+      "targets": {
+        "lint": {
+          "executor": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["libs/web/meta/data-access/tsconfig.lib.json", "libs/web/meta/data-access/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/web/meta/data-access/**/*"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/meta/data-access"],
+          "options": {
+            "jestConfig": "libs/web/meta/data-access/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "web-meta-feature": {
+      "projectType": "library",
+      "root": "libs/web/meta/feature",
+      "sourceRoot": "libs/web/meta/feature/src",
+      "prefix": "meta",
+      "targets": {
+        "lint": {
+          "executor": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["libs/web/meta/feature/tsconfig.lib.json", "libs/web/meta/feature/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/web/meta/feature/**/*"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/meta/feature"],
+          "options": {
+            "jestConfig": "libs/web/meta/feature/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "web-meta-ui": {
+      "projectType": "library",
+      "root": "libs/web/meta/ui",
+      "sourceRoot": "libs/web/meta/ui/src",
+      "prefix": "meta",
+      "targets": {
+        "lint": {
+          "executor": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["libs/web/meta/ui/tsconfig.lib.json", "libs/web/meta/ui/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/web/meta/ui/**/*"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/meta/ui"],
+          "options": {
+            "jestConfig": "libs/web/meta/ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "web-shell-feature": {
       "projectType": "library",
       "root": "libs/web/shell/feature",

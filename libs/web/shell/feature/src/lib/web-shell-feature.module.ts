@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('@nx-prisma-admin/web/dashboard/feature').then((m) => m.WebDashboardFeatureModule),
       },
       {
+        path: 'meta',
+        loadChildren: () => import('@nx-prisma-admin/web/meta/feature').then((m) => m.WebMetaFeatureModule),
+      },
+      {
         path: 'not-found',
         loadChildren: () => import('./not-found/not-found.module').then((m) => m.NotFoundModule),
       },
