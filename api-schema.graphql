@@ -42,6 +42,13 @@ type MetaModel {
   id: String
 }
 
+type MetaModelData {
+  count: Int
+  data: [JSON!]
+  model: MetaModel
+  schema: MetaSchema
+}
+
 type MetaSchema {
   enums: [MetaEnum!]
   models: [MetaModel!]
@@ -51,11 +58,15 @@ type Mutation {
   intercomPub(payload: JSON, scope: String, type: String!): IntercomMessage
   login(input: LoginInput!): UserToken
   logout: Boolean
+  metaCreateModelData(data: JSON!, model: String!): JSON
+  metaDeleteModelRecord(model: String!, recordId: String!): JSON
   register(input: RegisterInput!): UserToken
 }
 
 type Query {
   me: User
+  metaGenerated: JSON
+  metaModelData(model: String!): MetaModelData
   metaSchema: MetaSchema
   uptime: Float
 }

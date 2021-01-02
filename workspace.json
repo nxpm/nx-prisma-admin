@@ -201,6 +201,38 @@
         }
       }
     },
+    "prisma-generator": {
+      "root": "libs/prisma/generator",
+      "sourceRoot": "libs/prisma/generator/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/prisma/generator/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/prisma/generator"],
+          "options": {
+            "jestConfig": "libs/prisma/generator/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/prisma/generator",
+            "tsConfig": "libs/prisma/generator/tsconfig.lib.json",
+            "packageJson": "libs/prisma/generator/package.json",
+            "main": "libs/prisma/generator/src/index.ts",
+            "assets": ["libs/prisma/generator/*.md"]
+          }
+        }
+      }
+    },
     "web": {
       "projectType": "application",
       "root": "apps/web",

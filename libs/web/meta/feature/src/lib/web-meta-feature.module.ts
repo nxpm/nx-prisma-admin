@@ -13,6 +13,7 @@ import { WebMetaFeatureComponent } from './web-meta-feature.component'
   declarations: [WebMetaFeatureComponent],
   imports: [
     RouterModule.forChild([
+      lazy('generated', () => import('./generated/meta-generated.module').then((m) => m.MetaGeneratedModule)),
       children(WebMetaFeatureComponent, [
         redirect('models'),
         group('models', [

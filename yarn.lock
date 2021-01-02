@@ -3025,6 +3025,13 @@
   resolved "https://registry.yarnpkg.com/@timsuchanek/sleep-promise/-/sleep-promise-8.0.1.tgz#81c0754b345138a519b51c2059771eb5f9b97818"
   integrity sha512-cxHYbrXfnCWsklydIHSw5GCMHUPqpJ/enxWSyVHNOgNe61sit/+aOXTTI+VOdWkvVaJsI2vsB9N4+YDNITawOQ==
 
+"@tinkoff/ng-polymorpheus@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@tinkoff/ng-polymorpheus/-/ng-polymorpheus-3.0.0.tgz#f3ec38882ac92e589b95ca5512f8f63ec6e99d8e"
+  integrity sha512-I4b0c3u6XRNUb/hpXETlezK5FxQCRwyEoPYs8WQ6xnphFzHPeeSZzQjjMbp83qaJHon3go56aktv6lFoNDI3KA==
+  dependencies:
+    tslib "^1.10.0"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"

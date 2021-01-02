@@ -29,3 +29,32 @@ query MetaSchema {
     }
   }
 }
+
+query MetaGenerated {
+  generated: metaGenerated
+}
+
+query MetaModelData($model: String!) {
+  generated: metaModelData(model: $model) {
+    count
+    data
+    model {
+      ...MetaModelDetails
+    }
+    schema {
+      models {
+        ...MetaModelDetails
+      }
+      enums {
+        ...MetaEnumDetails
+      }
+    }
+  }
+}
+
+mutation MetaCreateModelData($model: String!, $data: JSON!) {
+  metaCreateModelData(model: $model, data: $data)
+}
+mutation MetaDeleteModelRecord($model: String!, $recordId: String!) {
+  metaDeleteModelRecord(model: $model, recordId: $recordId)
+}

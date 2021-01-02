@@ -53,6 +53,14 @@ export type MetaModel = {
   id?: Maybe<Scalars['String']>
 }
 
+export type MetaModelData = {
+  __typename?: 'MetaModelData'
+  count?: Maybe<Scalars['Int']>
+  data?: Maybe<Array<Scalars['JSON']>>
+  model?: Maybe<MetaModel>
+  schema?: Maybe<MetaSchema>
+}
+
 export type MetaSchema = {
   __typename?: 'MetaSchema'
   enums?: Maybe<Array<MetaEnum>>
@@ -64,6 +72,8 @@ export type Mutation = {
   intercomPub?: Maybe<IntercomMessage>
   login?: Maybe<UserToken>
   logout?: Maybe<Scalars['Boolean']>
+  metaCreateModelData?: Maybe<Scalars['JSON']>
+  metaDeleteModelRecord?: Maybe<Scalars['JSON']>
   register?: Maybe<UserToken>
 }
 
@@ -77,6 +87,16 @@ export type MutationLoginArgs = {
   input: LoginInput
 }
 
+export type MutationMetaCreateModelDataArgs = {
+  data: Scalars['JSON']
+  model: Scalars['String']
+}
+
+export type MutationMetaDeleteModelRecordArgs = {
+  model: Scalars['String']
+  recordId: Scalars['String']
+}
+
 export type MutationRegisterArgs = {
   input: RegisterInput
 }
@@ -84,8 +104,14 @@ export type MutationRegisterArgs = {
 export type Query = {
   __typename?: 'Query'
   me?: Maybe<User>
+  metaGenerated?: Maybe<Scalars['JSON']>
+  metaModelData?: Maybe<MetaModelData>
   metaSchema?: Maybe<MetaSchema>
   uptime?: Maybe<Scalars['Float']>
+}
+
+export type QueryMetaModelDataArgs = {
+  model: Scalars['String']
 }
 
 export type RegisterInput = {
@@ -216,6 +242,42 @@ export type MetaSchemaQuery = { __typename?: 'Query' } & {
     }
   >
 }
+
+export type MetaGeneratedQueryVariables = Exact<{ [key: string]: never }>
+
+export type MetaGeneratedQuery = { __typename?: 'Query' } & { generated: Query['metaGenerated'] }
+
+export type MetaModelDataQueryVariables = Exact<{
+  model: Scalars['String']
+}>
+
+export type MetaModelDataQuery = { __typename?: 'Query' } & {
+  generated?: Maybe<
+    { __typename?: 'MetaModelData' } & Pick<MetaModelData, 'count' | 'data'> & {
+        model?: Maybe<{ __typename?: 'MetaModel' } & MetaModelDetailsFragment>
+        schema?: Maybe<
+          { __typename?: 'MetaSchema' } & {
+            models?: Maybe<Array<{ __typename?: 'MetaModel' } & MetaModelDetailsFragment>>
+            enums?: Maybe<Array<{ __typename?: 'MetaEnum' } & MetaEnumDetailsFragment>>
+          }
+        >
+      }
+  >
+}
+
+export type MetaCreateModelDataMutationVariables = Exact<{
+  model: Scalars['String']
+  data: Scalars['JSON']
+}>
+
+export type MetaCreateModelDataMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'metaCreateModelData'>
+
+export type MetaDeleteModelRecordMutationVariables = Exact<{
+  model: Scalars['String']
+  recordId: Scalars['String']
+}>
+
+export type MetaDeleteModelRecordMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'metaDeleteModelRecord'>
 
 export const UserDetailsFragmentDoc = gql`
   fragment UserDetails on User {
@@ -420,6 +482,92 @@ export class MetaSchemaGQL extends Apollo.Query<MetaSchemaQuery, MetaSchemaQuery
     super(apollo)
   }
 }
+export const MetaGeneratedDocument = gql`
+  query MetaGenerated {
+    generated: metaGenerated
+  }
+`
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MetaGeneratedGQL extends Apollo.Query<MetaGeneratedQuery, MetaGeneratedQueryVariables> {
+  document = MetaGeneratedDocument
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo)
+  }
+}
+export const MetaModelDataDocument = gql`
+  query MetaModelData($model: String!) {
+    generated: metaModelData(model: $model) {
+      count
+      data
+      model {
+        ...MetaModelDetails
+      }
+      schema {
+        models {
+          ...MetaModelDetails
+        }
+        enums {
+          ...MetaEnumDetails
+        }
+      }
+    }
+  }
+  ${MetaModelDetailsFragmentDoc}
+  ${MetaEnumDetailsFragmentDoc}
+`
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MetaModelDataGQL extends Apollo.Query<MetaModelDataQuery, MetaModelDataQueryVariables> {
+  document = MetaModelDataDocument
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo)
+  }
+}
+export const MetaCreateModelDataDocument = gql`
+  mutation MetaCreateModelData($model: String!, $data: JSON!) {
+    metaCreateModelData(model: $model, data: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MetaCreateModelDataGQL extends Apollo.Mutation<
+  MetaCreateModelDataMutation,
+  MetaCreateModelDataMutationVariables
+> {
+  document = MetaCreateModelDataDocument
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo)
+  }
+}
+export const MetaDeleteModelRecordDocument = gql`
+  mutation MetaDeleteModelRecord($model: String!, $recordId: String!) {
+    metaDeleteModelRecord(model: $model, recordId: $recordId)
+  }
+`
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MetaDeleteModelRecordGQL extends Apollo.Mutation<
+  MetaDeleteModelRecordMutation,
+  MetaDeleteModelRecordMutationVariables
+> {
+  document = MetaDeleteModelRecordDocument
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo)
+  }
+}
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
@@ -442,6 +590,10 @@ export class ApolloAngularSDK {
     private intercomPubGql: IntercomPubGQL,
     private intercomSubGql: IntercomSubGQL,
     private metaSchemaGql: MetaSchemaGQL,
+    private metaGeneratedGql: MetaGeneratedGQL,
+    private metaModelDataGql: MetaModelDataGQL,
+    private metaCreateModelDataGql: MetaCreateModelDataGQL,
+    private metaDeleteModelRecordGql: MetaDeleteModelRecordGQL,
   ) {}
 
   me(variables?: MeQueryVariables, options?: QueryOptionsAlone<MeQueryVariables>) {
@@ -495,5 +647,41 @@ export class ApolloAngularSDK {
 
   metaSchemaWatch(variables?: MetaSchemaQueryVariables, options?: WatchQueryOptionsAlone<MetaSchemaQueryVariables>) {
     return this.metaSchemaGql.watch(variables, options)
+  }
+
+  metaGenerated(variables?: MetaGeneratedQueryVariables, options?: QueryOptionsAlone<MetaGeneratedQueryVariables>) {
+    return this.metaGeneratedGql.fetch(variables, options)
+  }
+
+  metaGeneratedWatch(
+    variables?: MetaGeneratedQueryVariables,
+    options?: WatchQueryOptionsAlone<MetaGeneratedQueryVariables>,
+  ) {
+    return this.metaGeneratedGql.watch(variables, options)
+  }
+
+  metaModelData(variables: MetaModelDataQueryVariables, options?: QueryOptionsAlone<MetaModelDataQueryVariables>) {
+    return this.metaModelDataGql.fetch(variables, options)
+  }
+
+  metaModelDataWatch(
+    variables: MetaModelDataQueryVariables,
+    options?: WatchQueryOptionsAlone<MetaModelDataQueryVariables>,
+  ) {
+    return this.metaModelDataGql.watch(variables, options)
+  }
+
+  metaCreateModelData(
+    variables: MetaCreateModelDataMutationVariables,
+    options?: MutationOptionsAlone<MetaCreateModelDataMutation, MetaCreateModelDataMutationVariables>,
+  ) {
+    return this.metaCreateModelDataGql.mutate(variables, options)
+  }
+
+  metaDeleteModelRecord(
+    variables: MetaDeleteModelRecordMutationVariables,
+    options?: MutationOptionsAlone<MetaDeleteModelRecordMutation, MetaDeleteModelRecordMutationVariables>,
+  ) {
+    return this.metaDeleteModelRecordGql.mutate(variables, options)
   }
 }

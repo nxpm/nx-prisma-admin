@@ -47,6 +47,9 @@
     "api-meta-feature": {
       "tags": ["scope:api", "type:feature"]
     },
+    "prisma-generator": {
+      "tags": []
+    },
     "web": {
       "tags": []
     },

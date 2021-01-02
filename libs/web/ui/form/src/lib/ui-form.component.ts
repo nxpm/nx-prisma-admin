@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormGroup } from '@angular/forms'
 import { FormlyFieldConfig, FormlyFormBuilder, FormlyFormOptions } from '@ngx-formly/core'
 
@@ -10,6 +10,7 @@ import { FormlyFieldConfig, FormlyFormBuilder, FormlyFormOptions } from '@ngx-fo
       <ng-content></ng-content>
     </form>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UiFormComponent implements OnInit {
   @Input() form: FormGroup = new FormGroup({})

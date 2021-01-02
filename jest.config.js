@@ -27,5 +27,6 @@ module.exports = {
     '<rootDir>/libs/web/meta/feature',
     '<rootDir>/libs/web/meta/data-access',
     '<rootDir>/libs/web/meta/ui',
+    '<rootDir>/libs/prisma/generator',
   ],
 }

@@ -15,7 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "ngx-router-fns": ["libs/web/core/feature/src/ngx-router-fns/index.ts"],
       "@nx-prisma-admin/api-app-module": ["apps/api/src/app/app.module.ts"],
       "@nx-prisma-admin/api/auth/data-access": ["libs/api/auth/data-access/src/index.ts"],
       "@nx-prisma-admin/api/auth/feature": ["libs/api/auth/feature/src/index.ts"],
@@ -38,7 +37,9 @@
       "@nx-prisma-admin/web/style": ["libs/web/style/src/index.ts"],
       "@nx-prisma-admin/web/ui/form": ["libs/web/ui/form/src/index.ts"],
       "@nx-prisma-admin/web/ui/icon": ["libs/web/ui/icon/src/index.ts"],
-      "@nx-prisma-admin/web/util/sdk": ["libs/web/util/sdk/src/index.ts"]
+      "@nx-prisma-admin/web/util/sdk": ["libs/web/util/sdk/src/index.ts"],
+      "@nx-prisma/generator": ["libs/prisma/generator/src/index.ts"],
+      "ngx-router-fns": ["libs/web/core/feature/src/ngx-router-fns/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
