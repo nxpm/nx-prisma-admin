@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "ngx-router-fns": ["libs/web/core/feature/src/ngx-router-fns/index.ts"],
       "@nx-prisma-admin/api-app-module": ["apps/api/src/app/app.module.ts"],
       "@nx-prisma-admin/api/auth/data-access": ["libs/api/auth/data-access/src/index.ts"],
       "@nx-prisma-admin/api/auth/feature": ["libs/api/auth/feature/src/index.ts"],

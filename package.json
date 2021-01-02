@@ -86,6 +86,7 @@
     "joi": "^17.2.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "prisma-json-schema-generator": "^1.2.0",
     "prismafile": "^1.0.10",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.5.5",
