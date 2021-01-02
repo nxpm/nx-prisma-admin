@@ -52,4 +52,26 @@ export class ApiCoreDataAccessService extends PrismaClient implements OnModuleIn
   public findUserByUsername(username: string) {
     return this.user.findUnique({ where: { username } })
   }
+
+  async getSchema(name: string) {
+    switch (name) {
+      case 'hello':
+        return `type Query { hello: String }`
+      default:
+        return null
+    }
+  }
+
+  async getResolver(name: string) {
+    switch (name) {
+      case 'hello':
+        return {
+          hello: () => {
+            return 'Hello World!'
+          },
+        }
+      default:
+        return null
+    }
+  }
 }

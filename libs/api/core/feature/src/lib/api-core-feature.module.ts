@@ -10,6 +10,7 @@ import { validationSchema } from './config/validation'
 import { ApiCoreFeatureController } from './api-core-feature.controller'
 import { ApiCoreFeatureResolver } from './api-core-feature.resolver'
 import { ApiCoreFeatureService } from './api-core-feature.service'
+import { DynamicSchemaModule } from './dynamic-schema.module'
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ApiCoreFeatureService } from './api-core-feature.service'
       sortSchema: true,
     }),
     GraphQLIntercomModule.forRoot({ pubSub: new PubSub() }),
+    DynamicSchemaModule,
   ],
   controllers: [ApiCoreFeatureController],
   providers: [ApiCoreFeatureResolver, ApiCoreFeatureService],
